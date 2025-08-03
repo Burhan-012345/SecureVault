@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Media Vault</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Internet Connection Status -->
+    <div id="connectionStatus" class="connection-status hidden">
+        <i class="fas fa-wifi"></i>
+        <span>No internet connection</span>
+    </div>
+
+    <!-- First Time Setup -->
+    <div id="setupScreen" class="screen">
+        <div class="setup-container">
+            <div class="logo">
+                <i class="fas fa-lock"></i>
+                <h1>Secure Media Vault</h1>
+            </div>
+            <div class="setup-form">
+                <h2>First Time Setup</h2>
+                <p>Create a secure PIN to protect your media</p>
+                <form id="setupForm">
+                    <div class="form-group">
+                        <label for="setupPin">Create 6-digit PIN</label>
+                        <div class="pin-input">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric" autofocus>
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        </div>
+                        <div class="toggle-pin">
+                            <input type="checkbox" id="showSetupPin">
+                            <label for="showSetupPin">Show PIN</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="securityQuestion">Security Question</label>
+                        <select id="securityQuestion" required>
+                            <option value="">Select a question</option>
+                            <option value="What was your first pet's name?">What was your first pet's name?</option>
+                            <option value="What city were you born in?">What city were you born in?</option>
+                            <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+                            <option value="What was the name of your first school?">What was the name of your first school?</option>
+                            <option value="What was your childhood nickname?">What was your childhood nickname?</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="securityAnswer">Answer</label>
+                        <input type="text" id="securityAnswer" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Complete Setup</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="screen hidden">
+        <div class="login-container">
+            <div class="logo">
+                <i class="fas fa-lock"></i>
+                <h1>Secure Media Vault</h1>
+            </div>
+            <div class="login-form">
+                <h2>Enter Your PIN</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <div class="pin-input">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric" autofocus>
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        </div>
+                        <div class="toggle-pin">
+                            <input type="checkbox" id="showLoginPin">
+                            <label for="showLoginPin">Show PIN</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Unlock Vault</button>
+                    <button type="button" id="forgotPinBtn" class="btn-link">Forgot PIN?</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot PIN Screen -->
+    <div id="forgotPinScreen" class="screen hidden">
+        <div class="forgot-pin-container">
+            <div class="logo">
+                <i class="fas fa-key"></i>
+                <h1>Recover Your PIN</h1>
+            </div>
+            <div class="forgot-pin-form">
+                <form id="forgotPinForm">
+                    <div class="form-group">
+                        <p id="securityQuestionDisplay"></p>
+                        <input type="text" id="forgotPinAnswer" placeholder="Your answer" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Verify Answer</button>
+                    <button type="button" id="backToLoginBtn" class="btn-link">Back to Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset PIN Screen -->
+    <div id="resetPinScreen" class="screen hidden">
+        <div class="reset-pin-container">
+            <div class="logo">
+                <i class="fas fa-key"></i>
+                <h1>Reset Your PIN</h1>
+            </div>
+            <div class="reset-pin-form">
+                <form id="resetPinForm">
+                    <div class="form-group">
+                        <label for="newPin">New 6-digit PIN</label>
+                        <div class="pin-input">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric" autofocus>
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        </div>
+                        <div class="toggle-pin">
+                            <input type="checkbox" id="showResetPin">
+                            <label for="showResetPin">Show PIN</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Reset PIN</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Vault Screen -->
+    <div id="vaultScreen" class="screen hidden">
+        <header class="vault-header">
+            <div class="header-left">
+                <button id="themeToggleBtn" class="btn-icon">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            <div class="header-center">
+                <h1>Your Media Vault</h1>
+            </div>
+            <div class="header-right">
+                <button id="settingsBtn" class="btn-icon">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button id="lockVaultBtn" class="btn-icon">
+                    <i class="fas fa-lock"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="vault-main">
+            <div class="media-actions">
+                <button id="addMediaBtn" class="btn-primary">
+                    <i class="fas fa-plus"></i> Add Media
+                </button>
+                <input type="file" id="mediaUploadInput" accept="image/*,video/*" multiple style="display: none;">
+            </div>
+
+            <div class="media-grid" id="mediaGrid">
+                <!-- Media items will be added here dynamically -->
+                <div class="empty-state">
+                    <i class="fas fa-images"></i>
+                    <p>Your vault is empty</p>
+                    <p>Add photos or videos to get started</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Media Viewer Modal -->
+        <div id="mediaViewerModal" class="modal hidden">
+            <div class="modal-content">
+                <button id="closeMediaViewer" class="btn-icon close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="media-container">
+                    <img id="viewerImage" src="" alt="" class="hidden">
+                    <video id="viewerVideo" src="" controls class="hidden"></video>
+                </div>
+                <div class="media-actions">
+                    <button id="downloadMediaBtn" class="btn-action">
+                        <i class="fas fa-download"></i>
+                    </button>
+                    <button id="deleteMediaBtn" class="btn-action">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button id="shareMediaBtn" class="btn-action">
+                        <i class="fas fa-share"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Share Modal -->
+        <div id="shareModal" class="modal hidden">
+            <div class="modal-content share-content">
+                <button id="closeShareModal" class="btn-icon close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h3>Share Media</h3>
+                <div class="share-platforms">
+                    <button class="share-platform" data-platform="whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </button>
+                    <button class="share-platform" data-platform="facebook">
+                        <i class="fab fa-facebook"></i>
+                        <span>Facebook</span>
+                    </button>
+                    <button class="share-platform" data-platform="twitter">
+                        <i class="fab fa-twitter"></i>
+                        <span>Twitter</span>
+                    </button>
+                    <button class="share-platform" data-platform="instagram">
+                        <i class="fab fa-instagram"></i>
+                        <span>Instagram</span>
+                    </button>
+                    <button class="share-platform" data-platform="telegram">
+                        <i class="fab fa-telegram"></i>
+                        <span>Telegram</span>
+                    </button>
+                    <button class="share-platform" data-platform="copy">
+                        <i class="fas fa-copy"></i>
+                        <span>Copy Link</span>
+                    </button>
+                </div>
+                <div class="share-link">
+                    <input type="text" id="shareLinkInput" readonly>
+                    <button id="copyShareLinkBtn" class="btn-icon">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="modal hidden">
+            <div class="modal-content settings-content">
+                <button id="closeSettingsModal" class="btn-icon close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h3>Settings</h3>
+                
+                <div class="settings-tabs">
+                    <button class="settings-tab active" data-tab="general">General</button>
+                    <button class="settings-tab" data-tab="security">Security</button>
+                    <button class="settings-tab" data-tab="about">About</button>
+                </div>
+                
+                <div class="settings-sections">
+                    <div id="generalSettings" class="settings-section active">
+                        <div class="setting-item">
+                            <h4>Theme</h4>
+                            <div class="theme-options">
+                                <button class="theme-option" data-theme="light">
+                                    <i class="fas fa-sun"></i> Light
+                                </button>
+                                <button class="theme-option" data-theme="dark">
+                                    <i class="fas fa-moon"></i> Dark
+                                </button>
+                                <button class="theme-option" data-theme="auto">
+                                    <i class="fas fa-adjust"></i> Auto
+                                </button>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <h4>Media Grid</h4>
+                            <div class="grid-options">
+                                <label>
+                                    <input type="radio" name="gridSize" value="small" checked>
+                                    Small
+                                </label>
+                                <label>
+                                    <input type="radio" name="gridSize" value="medium">
+                                    Medium
+                                </label>
+                                <label>
+                                    <input type="radio" name="gridSize" value="large">
+                                    Large
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="securitySettings" class="settings-section">
+                        <div class="setting-item">
+                            <h4>Change PIN</h4>
+                            <button id="changePinBtn" class="btn-secondary">
+                                Change PIN
+                            </button>
+                        </div>
+                        <div class="setting-item">
+                            <h4>Security Question</h4>
+                            <p id="currentSecurityQuestion"></p>
+                            <button id="changeSecurityQuestionBtn" class="btn-secondary">
+                                Change Question
+                            </button>
+                        </div>
+                        <div class="setting-item">
+                            <h4>Auto Lock</h4>
+                            <select id="autoLockTimeout">
+                                <option value="0">Never</option>
+                                <option value="1">1 minute</option>
+                                <option value="5">5 minutes</option>
+                                <option value="15">15 minutes</option>
+                                <option value="30">30 minutes</option>
+                                <option value="60">1 hour</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="aboutSettings" class="settings-section">
+                        <div class="about-tabs">
+                            <button class="about-tab active" data-tab="about">About</button>
+                            <button class="about-tab" data-tab="privacy">Privacy Policy</button>
+                            <button class="about-tab" data-tab="help">Help Center</button>
+                        </div>
+                        
+                        <div class="about-sections">
+                            <div id="aboutSection" class="about-section active">
+                                <h4>About Secure Media Vault</h4>
+                                <p>Version 1.0.0</p>
+                                <p>Secure Media Vault is a modern application designed to protect your private photos and videos with advanced security features.</p>
+                                <p>All your media is stored locally on your device and encrypted for maximum privacy.</p>
+                                <div class="social-links">
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-github"></i></a>
+                                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                            
+                            <div id="privacySection" class="about-section">
+                                <h4>Privacy Policy</h4>
+                                <p>Your privacy is important to us. This policy explains what data we collect and how we use it.</p>
+                                <h5>Data Collection</h5>
+                                <p>We do not collect any personal data. All your media and PIN are stored locally on your device.</p>
+                                <h5>Permissions</h5>
+                                <p>The app requires access to your device storage to save and retrieve media files.</p>
+                                <h5>Security</h5>
+                                <p>All media is encrypted and protected with your PIN. We don't have access to your files.</p>
+                            </div>
+                            
+                            <div id="helpSection" class="about-section">
+                                <h4>Help Center</h4>
+                                <h5>How to use the app</h5>
+                                <p>1. Set up a 6-digit PIN during first launch</p>
+                                <p>2. Add media using the + button</p>
+                                <p>3. View media by clicking on thumbnails</p>
+                                <p>4. Use the action buttons to download, delete or share</p>
+                                <h5>Forgot PIN?</h5>
+                                <p>Use the "Forgot PIN" option and answer your security question to reset your PIN.</p>
+                                <h5>Contact Support</h5>
+                                <p>Email: support@securevault.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Change PIN Modal -->
+        <div id="changePinModal" class="modal hidden">
+            <div class="modal-content">
+                <button id="closeChangePinModal" class="btn-icon close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h3>Change PIN</h3>
+                <form id="changePinForm">
+                    <div class="form-group">
+                        <label for="currentPin">Current PIN</label>
+                        <div class="pin-input">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric" autofocus>
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newPin">New PIN</label>
+                        <div class="pin-input">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmNewPin">Confirm New PIN</label>
+                        <div class="pin-input">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Change PIN</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Change Security Question Modal -->
+        <div id="changeQuestionModal" class="modal hidden">
+            <div class="modal-content">
+                <button id="closeChangeQuestionModal" class="btn-icon close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h3>Change Security Question</h3>
+                <form id="changeQuestionForm">
+                    <div class="form-group">
+                        <label for="newSecurityQuestion">Security Question</label>
+                        <select id="newSecurityQuestion" required>
+                            <option value="">Select a question</option>
+                            <option value="What was your first pet's name?">What was your first pet's name?</option>
+                            <option value="What city were you born in?">What city were you born in?</option>
+                            <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+                            <option value="What was the name of your first school?">What was the name of your first school?</option>
+                            <option value="What was your childhood nickname?">What was your childhood nickname?</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newSecurityAnswer">New Answer</label>
+                        <input type="text" id="newSecurityAnswer" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmCurrentPin">Current PIN</label>
+                        <div class="pin-input">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                            <input type="password" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
